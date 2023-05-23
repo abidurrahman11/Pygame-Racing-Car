@@ -15,9 +15,7 @@ To get started, clone the repository and review the code to familiarize yourself
 
 ![Game screen 2](/screenshots/ss-2.png)
 
-![ss-1 (1)](https://github.com/yavuzibr/Pygame-Racing-Car/assets/91032836/6765fab9-08e6-4b06-a6cd-db662dee854f)
-
-![ss-2 (1)](https://github.com/yavuzibr/Pygame-Racing-Car/assets/91032836/5d2e99fb-c8e0-4943-9845-7f4d1a9f41bd)
+![ss-1 (1)](https://github.com/yavuzibr/Pygame-Racing-Car/assets/91032836/6765fab9-08e6-4b06-a6cd-db662dee854f) ![ss-2 (1)](https://github.com/yavuzibr/Pygame-Racing-Car/assets/91032836/5d2e99fb-c8e0-4943-9845-7f4d1a9f41bd)
 
 
 ## Contributing
