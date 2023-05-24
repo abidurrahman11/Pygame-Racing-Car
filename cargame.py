@@ -24,12 +24,12 @@ screen.fill((60, 220, 0))
 pygame.display.update()
 
 # load player car
-car = pygame.image.load("car.png")
+car = pygame.image.load("assets/car.png")
 car_loc = car.get_rect()
 car_loc.center = right_lane, height * 0.8
 
 # load enemy car
-car2 = pygame.image.load("otherCar.png")
+car2 = pygame.image.load("assets/otherCar.png")
 car2_loc = car2.get_rect()
 car2_loc.center = left_lane, height * 0.2
 
