@@ -2,7 +2,7 @@
 
 Welcome to the Pygame Racing Car project, a collaborative effort to improve a fun and engaging racing car game built using the Pygame library. This project is open to anyone who wants to contribute to making the game better.
 
-![Contributors](https://img.shields.io/github/contributors/abidurrahman11/Pygame-Racing-Car?color=dark-green) ![Forks](https://img.shields.io/github/forks/abidurrahman11/Pygame-Racing-Car?style=social) ![Stargazers](https://img.shields.io/github/stars/abidurrahman11/Pygame-Racing-Car?style=social) ![Issues](https://img.shields.io/github/issues/abidurrahman11/Pygame-Racing-Car) [![first-timers-only](https://img.shields.io/badge/first--timers--only-friendly-blue.svg?style=flat-square)](https://www.firsttimersonly.com/)
+![Contributors](https://img.shields.io/github/contributors/abidurrahman11/Pygame-Racing-Car?color=dark-green) ![Forks](https://img.shields.io/github/forks/abidurrahman11/Pygame-Racing-Car?style=social) ![Stargazers](https://img.shields.io/github/stars/abidurrahman11/Pygame-Racing-Car?style=social) ![Issues](https://img.shields.io/github/issues/abidurrahman11/Pygame-Racing-Car) [![first-timers-only](https://img.shields.io/badge/first--timers--only-friendly-blue.svg?style=flat-square)](https://www.firsttimersonly.com/) ![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)
 
 
 ## Getting Started
