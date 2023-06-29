@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 import random
-
+import time
 # TO DO: Add sound effect, trees graphics, on-screen score
 
 pygame.init()
@@ -19,6 +19,14 @@ screen = pygame.display.set_mode(size)
 
 pygame.display.set_caption("2D Car Game")
 screen.fill((60, 220, 0))
+
+game_over_font = pygame.font.SysFont("Arial", 60)
+def message_display(text, font, text_col, x, y):
+    img = font.render(text, True, text_col)
+    screen.blit(img, (x, y))
+
+def game_over():
+    message_display("GAME OVER!", game_over_font, (128, 128, 128), 220, 330)
 
 #apply changes
 pygame.display.update()
@@ -59,12 +67,17 @@ while running:
     # we subtracting 250 from y because even if the front of car touches another car they actually collide
     if car_loc[0] == car2_loc[0] and car2_loc[1] > car_loc[1] - 250:
         print("GAME OVER!")
+        game_over()
+        pygame.display.update()
         break
 
     # if the car get out of the road the game will be over
     if car_loc[0] == width / 2 + road_w / 2 or car_loc[0] == width / 2 - road_w:
         print("GAME OVER!")
-        break
+        game_over()
+        pygame.display.update()
+        break       
+        
 
     # event listener
     for event in pygame.event.get():
@@ -91,4 +104,13 @@ while running:
     screen.blit(car2, car2_loc)
     pygame.display.update()
 
+    if not running:
+        game_over()
+        pygame.display.update()
+        break
+
+
+
+
+time.sleep(2)
 pygame.quit()
