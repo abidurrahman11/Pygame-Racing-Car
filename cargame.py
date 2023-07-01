@@ -18,15 +18,21 @@ running = True
 screen = pygame.display.set_mode(size)
 
 pygame.display.set_caption("2D Car Game")
-screen.fill((60, 220, 0))
 
 game_over_font = pygame.font.SysFont("Arial", 60)
+score_font = pygame.font.SysFont("Arial", 30)
 def message_display(text, font, text_col, x, y):
     img = font.render(text, True, text_col)
+    img = img.convert_alpha()
     screen.blit(img, (x, y))
 
 def game_over():
-    message_display("GAME OVER!", game_over_font, (128, 128, 128), 220, 330)
+    message_display("GAME OVER!", game_over_font, (128, 128, 128), 225, 330)
+
+def score():
+    message_display("SCORE ", score_font, (100, 100, 100),680, 20)
+    message_display(str(newScore), score_font, (100, 100, 100),690, 55)
+
 
 #apply changes
 pygame.display.update()
@@ -42,15 +48,17 @@ car2_loc = car2.get_rect()
 car2_loc.center = left_lane, height * 0.2
 
 # tracking the score
-counter = 0
+newScore = 0
+level = 0
 
 while running:
+    screen.fill((60, 220, 0))
     # if score is greater than 5000 then move to a new level and increase the speed of enemy car
-    counter += 1
-    if counter == 5000:
-        speed += 0.16
-        counter = 0
-        print("Level Up", speed)
+    newScore += 1
+    if newScore % 5000 == 0:
+        speed += .16
+        level += 1
+        print("Level Up!")
     # animate enemy vehicle
     # adding speed to change y-axis of car2_loc
     car2_loc[1] += speed
@@ -102,7 +110,9 @@ while running:
     # load the car on road
     screen.blit(car, car_loc)
     screen.blit(car2, car2_loc)
+    score()
     pygame.display.update()
+    
 
     if not running:
         game_over()
