@@ -28,6 +28,8 @@ def message_display(text, font, text_col, x, y):
 
 def game_over():
     message_display("GAME OVER!", game_over_font, (128, 128, 128), 225, 330)
+    message_display("FINAL SCORE ", score_font, (100, 100, 100), 270, 230)
+    message_display(str(newScore), score_font, (100, 100, 100), 450, 230)
 
 def score():
     message_display("SCORE ", score_font, (100, 100, 100),680, 20)
