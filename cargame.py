@@ -31,6 +31,33 @@ def game_over():
     message_display("FINAL SCORE ", score_font, (100, 100, 100), 270, 230)
     message_display(str(newScore), score_font, (100, 100, 100), 450, 230)
 
+    # Read high_scores from txt file, which are in the form of space separated numbers
+    hs_file = open('high_scores.txt', 'r')
+    high_scores = hs_file.read()
+    hs_file.close()
+
+    # Convert the high score string data into list of numbers and add new score to the data
+    scores = [int(x) for x in high_scores.split()]
+    scores.append(newScore)
+
+    # Sort in descending order, then keep only the top 5 scores by deleting the extra score if present
+    scores.sort()
+    scores.reverse() 
+    if (len(scores) > 5):
+        scores.remove(scores[5])
+
+    # Printing top 5 high scores 
+    message_display("HIGH SCORES ", score_font, (100, 100, 100), 300, 410)
+    score_index = 1
+    for score in scores:
+        message_display(str(score_index) + '. ' + str(score), score_font, (100, 100, 100), 330, 410 + (score_index * 30))
+        score_index += 1
+
+    # Rewrite the high_scores file with the updated high scores
+    hs_file = open('high_scores.txt', 'w')
+    for score in scores:
+        hs_file.write(str(score) + ' ')
+
 def score():
     message_display("SCORE ", score_font, (100, 100, 100),680, 20)
     message_display(str(newScore), score_font, (100, 100, 100),690, 55)
