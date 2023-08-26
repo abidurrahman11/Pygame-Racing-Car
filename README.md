@@ -20,7 +20,7 @@ To get started, clone the repository and review the code to familiarize yourself
 
 Contributions are welcome and encouraged! Whether you're a seasoned Python developer or just getting started, there are many ways to contribute to this project. You can help by adding new features, improving the game's graphics, fixing bugs, or simply testing the game and providing feedback.
 
-If you are interested in learning Pygame, [checkout the official documentation](https://www.pygame.org/docs/)
+If you are interested in learning Pygame, [checkout the official documentation.](https://www.pygame.org/docs/)
 
 ## Issues and Feedback
 
