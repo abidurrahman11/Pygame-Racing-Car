@@ -1,10 +1,11 @@
 import pygame
 import random
 from sys import exit as sys_exit
-# TO DO: Add sound effect, trees graphics, on-screen score
+# TO DO: Add sound effect, trees graphics
 
 pygame.init()
 
+pygame.mixer.init()
 
 class Game:
     FPS = 60
@@ -30,6 +31,9 @@ class Game:
 
         self.game_over_font = pygame.font.SysFont("Arial", 60)
         self.score_font = pygame.font.SysFont("Arial", 30)
+
+        # load sound effects
+        self.car_crash_sound = pygame.mixer.Sound("assets/carCrash.wav")
 
         # load player car
         self.original_car = pygame.image.load("assets/car.png")
@@ -84,6 +88,7 @@ class Game:
 
             # If Cars collide game ends
             if self.car2_loc.colliderect(self.car_loc):
+                self.car_crash_sound.play()
                 self.game_state = "GAME OVER"
 
             self.draw()
