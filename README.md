@@ -7,7 +7,7 @@ Welcome to the Pygame Racing Car project, a collaborative effort to improve a fu
 
 ## Getting Started
 
-To get started, clone the repository and review the code to familiarize yourself with the game's structure and functionality. If you're new to Pygame or game development in general, don't worry - this project is beginner-friendly and offers a great opportunity to learn by doing.
+To get started, check out the [development guide](#development) and review the code to familiarize yourself with the game's structure and functionality. If you're new to Pygame or game development in general, don't worry - this project is beginner-friendly and offers a great opportunity to learn by doing.
 
 ## Screenshots
 <p align="middle"">
@@ -22,6 +22,31 @@ Contributions are welcome and encouraged! Whether you're a seasoned Python devel
 
 If you are interested in learning Pygame, [checkout the official documentation.](https://www.pygame.org/docs/)
 
+## Development
+
+If you are confused about how to get started, don't worry - here is a development guide.
+
+### Installation
+
+You will need to clone the repository and enter the directory.
+```
+git clone https://github.com/abidurrahman11/Pygame-Racing-Car.git
+cd ./Pygame-Racing-Car
+```
+If you haven't already, you will need to download the Pygame library.
+```
+pip install pygame
+```
+### Testing
+To run and test the code, enter this line:
+```
+python3 cargame.py
+```
+That's it! Now you can get started on developing.
+
 ## Issues and Feedback
 
 If you encounter any issues or have feedback on how we can make the game better, please let us know by opening an issue in the repository. We appreciate your input and look forward to working with you to make Pygame Racing Car the best it can be!
+
+## License
+Pygame: Racing Car is open-source and licensed under the [MIT License](LICENSE).
