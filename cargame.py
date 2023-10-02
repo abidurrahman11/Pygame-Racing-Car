@@ -140,7 +140,6 @@ class Game:
                 self.quit_game()
 
             if event.type == pygame.KEYDOWN:
-                print(True)
                 if event.key in [pygame.K_a, pygame.K_LEFT] and self.car_lane == "R":
                     # Use this line to add game over
                     # if car_lane == 'L': game_over()
