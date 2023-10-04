@@ -93,14 +93,13 @@ class Game:
 
             if self.game_state == "GAME OVER":
                 self.game_over_draw()
-
                 self.CLOCK.tick(self.FPS)
                 pygame.display.update()
                 continue
 
             # if score is greater than 5000 then move
             # to a new level and increase the speed of enemy car
-            if self.score % 5000 == 0:
+            if self.score % 1000 == 0:
                 self.speed += 0.16
                 self.level += 1
                 print("Level Up!")
@@ -148,6 +147,10 @@ class Game:
                 if event.key in [pygame.K_d, pygame.K_RIGHT] and self.car_lane == "L":
                     self.car_loc = self.car_loc.move([int(self.road_w / 2), 0])
                     self.car_lane = "R"
+                if event.key in [pygame.K_SPACE, pygame.K_r] and self.game_state == "GAME OVER":
+                    self.restart_game()
+                if event.key in [pygame.K_ESCAPE, pygame.K_q]:
+                    self.quit_game()
             if event.type == pygame.VIDEORESIZE:
                 self.SCREEN_WIDTH, self.SCREEN_HEIGHT = event.w, event.h
                 self.SCREEN = pygame.display.set_mode(
@@ -345,6 +348,27 @@ class Game:
                 self.SCREEN_WIDTH / 2,
                 410 + ((idx + 1) * 30),
             )
+        
+        self.message_display(
+            "(Space to restart)", self.score_font, (80, 80, 80), self.SCREEN_WIDTH / 2, 600
+        )
+
+    def restart_game(self):
+        self.score = 0
+        self.level = 0
+        self.event_updater_counter = 0
+        self.game_state = "MAIN GAME"
+        self.has_update_scores = False
+        self.scores = []
+        self.car_loc.center = (
+            self.right_lane,
+            self.SCREEN_HEIGHT - self.car_loc.height * 0.5,
+        )
+        self.car2_loc = self.car2.get_rect()
+        self.car2_loc.center = (self.left_lane, self.SCREEN_HEIGHT * 0.2)
+        self.car_lane = "R"
+        self.car2_lane = "L"
+        print("Restart!")
 
     @staticmethod
     def quit_game():
