@@ -3,8 +3,7 @@ import random
 from sys import exit as sys_exit
 
 # TODO: Add sound effect, trees graphics
-# TODO: Make the movement of the dashed line
-#       dependent on the speed of the car
+# TODO: Make the movement of the dashed line smoothly transition when level up
 
 pygame.init()
 
@@ -21,6 +20,7 @@ class Game:
         self.right_lane = self.SCREEN_WIDTH / 2 + self.road_w / 4
         self.left_lane = self.SCREEN_WIDTH / 2 - self.road_w / 4
         self.speed = 3
+        self.speed_factor = self.SCREEN_HEIGHT / 660  # animate enemy vehicle
         self.car_lane = "R"
         self.car2_lane = "L"
 
@@ -87,7 +87,7 @@ class Game:
             self.event_updater_counter += 1
 
             if (
-                self.event_updater_counter > 30
+                self.event_updater_counter > self.SCREEN_HEIGHT
             ):  # for dashed line it's sufficient to reset
                 self.event_updater_counter = 0
 
@@ -99,14 +99,13 @@ class Game:
 
             # if score is greater than 5000 then move
             # to a new level and increase the speed of enemy car
-            if self.score % 1000 == 0:
+            if self.score % 100 == 0:
                 self.speed += 0.16
                 self.level += 1
                 print("Level Up!")
 
-            speed_factor = self.SCREEN_HEIGHT / 660  # animate enemy vehicle
             self.car2_loc[1] += (
-                self.speed * speed_factor
+                self.speed * self.speed_factor
             )  # adding speed to change y-axis of car2_loc
 
             # if car2 move & disappear then, changing the location of new car2
@@ -227,18 +226,20 @@ class Game:
         )
 
         # drawing the yellow dashed line on the center of dark road
-        num_yellow_lines = 11  # 10 + 1 moving in the borders of the screen
+        num_yellow_lines = 11 # 10 + 1 moving in the borders of the screen
         # event_updater_counter is used to move the yellow dashed line
-
         line_positions = [
             (
                 self.SCREEN_WIDTH / 2 - self.roadmark_w / 2,
                 # be careful changing this values, it may cause the lines
                 # to not be drawn correctly
+                # line speed is 75% of car2 speed
                 int(
-                    -2 * self.SCREEN_HEIGHT / 20
+                    (self.SCREEN_HEIGHT / 20
                     + 2 * self.SCREEN_HEIGHT / 20 * num_line
-                    + event_updater_counter / 15 * self.SCREEN_HEIGHT / 20
+                    + self.speed * self.speed_factor * event_updater_counter * 0.75)
+                    % self.SCREEN_HEIGHT / 10 * 11
+                    - self.SCREEN_HEIGHT / 20
                 ),
                 self.roadmark_w,
                 self.SCREEN_HEIGHT / 20,
