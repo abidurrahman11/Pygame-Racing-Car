@@ -99,7 +99,7 @@ class Game:
 
             # if score is greater than 5000 then move
             # to a new level and increase the speed of enemy car
-            if self.score % 100 == 0:
+            if self.score % 5000 == 0:
                 self.speed += 0.16
                 self.level += 1
                 print("Level Up!")
@@ -357,6 +357,7 @@ class Game:
     def restart_game(self):
         self.score = 0
         self.level = 0
+        self.speed = 3
         self.event_updater_counter = 0
         self.game_state = "MAIN GAME"
         self.has_update_scores = False
