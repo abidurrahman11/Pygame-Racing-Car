@@ -42,7 +42,7 @@ class Game:
         pygame.display.set_caption("2D Car Game")
 
         self.game_over_font = pygame.font.SysFont("Arial", 60)
-        self.score_font = pygame.font.SysFont("Arial", 30)
+        self.score_font = pygame.font.Font("assets/fonts/joystix monospace.otf", 30)
 
         # load sound effects
         self.car_crash_sound = pygame.mixer.Sound("assets/carCrash.wav")
@@ -286,14 +286,14 @@ class Game:
             "SCORE ",
             self.score_font,
             (255, 50, 50),
-            self.right_lane + self.road_w / 4,
+            self.right_lane + self.road_w / 2.5,
             20,
         )
         self.message_display(
             self.score,
             self.score_font,
             (255, 50, 50),
-            self.right_lane + self.road_w / 4,
+            self.right_lane + self.road_w / 2.5,
             55,
         )
 
@@ -410,6 +410,8 @@ class Game:
 
 
 if __name__ == "__main__":
+
     game = Game()
 
     game.main_loop()
+
