@@ -77,12 +77,20 @@ class Game:
         self.scale = self.SCREEN_HEIGHT - self.car2_loc.height
 
         self.game_state = "MAIN GAME"
+        self.game_paused = False
 
         self.has_update_scores = False
         self.scores = []
 
     def main_loop(self):
         while True:
+            if self.game_paused:
+                self.game_paused_draw()
+                self.CLOCK.tick(10)
+                pygame.display.update()
+                self.handle_critical_events()
+                continue
+
             self.event_loop()
             self.event_updater_counter += 1
 
@@ -132,11 +140,16 @@ class Game:
             self.CLOCK.tick(self.FPS)
             pygame.display.update()
 
-    def event_loop(self):
-        for event in pygame.event.get():  # Event Loop
+    def handle_critical_events(self):
+        for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.quit_game()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    self.game_paused = False
 
+    def event_loop(self):
+        for event in pygame.event.get():  # Event Loop
             if event.type == pygame.KEYDOWN:
                 if event.key in [pygame.K_a, pygame.K_LEFT] and self.car_lane == "R":
                     # Use this line to add game over
@@ -148,6 +161,9 @@ class Game:
                     self.car_lane = "R"
                 if event.key in [pygame.K_SPACE, pygame.K_r] and self.game_state == "GAME OVER":
                     self.restart_game()
+                if event.key in [pygame.K_SPACE]:
+                    if not self.game_paused:
+                        self.game_paused = True
                 if event.key in [pygame.K_ESCAPE, pygame.K_q]:
                     self.quit_game()
             if event.type == pygame.VIDEORESIZE:
@@ -352,6 +368,11 @@ class Game:
         
         self.message_display(
             "(Space to restart)", self.score_font, (80, 80, 80), self.SCREEN_WIDTH / 2, 600
+        )
+
+    def game_paused_draw(self):
+        self.message_display(
+            "PAUSED", self.game_over_font, (0, 0, 100), self.SCREEN_WIDTH / 2, 200
         )
 
     def restart_game(self):
