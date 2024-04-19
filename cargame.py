@@ -159,6 +159,8 @@ class Game:
                 if event.key in [pygame.K_d, pygame.K_RIGHT] and self.car_lane == "L":
                     self.car_loc = self.car_loc.move([int(self.road_w / 2), 0])
                     self.car_lane = "R"
+                if event.key in [pygame.K_w, pygame.K_UP]:
+                    self.speed = self.speed + 5
                 if event.key in [pygame.K_SPACE, pygame.K_r] and self.game_state == "GAME OVER":
                     self.restart_game()
                 if event.key in [pygame.K_SPACE]:
@@ -166,6 +168,9 @@ class Game:
                         self.game_paused = True
                 if event.key in [pygame.K_ESCAPE, pygame.K_q]:
                     self.quit_game()
+            if event.type == pygame.KEYUP:
+                if event.key in [pygame.K_w, pygame.K_UP]:
+                    self.speed = self.speed - 5
             if event.type == pygame.VIDEORESIZE:
                 self.SCREEN_WIDTH, self.SCREEN_HEIGHT = event.w, event.h
                 self.SCREEN = pygame.display.set_mode(
