@@ -9,6 +9,17 @@ Welcome to the Pygame Racing Car project, a collaborative effort to improve a fu
 
 To get started, check out the [development guide](#development) and review the code to familiarize yourself with the game's structure and functionality. If you're new to Pygame or game development in general, don't worry - this project is beginner-friendly and offers a great opportunity to learn by doing.
 
+## How to Play 
+
+Race as far as you can while avoiding oncoming vehicles. The farther you drive the more points you will get.  
+```
+Switch to Left Lane:    A, or Left Arrow 
+Switch to Right Lane:   D, or Right Arrow 
+Accelerate:             W, or Up Arrow 
+Pause:                  Space Bar
+Exit:                   Esc
+```
+
 ## Screenshots
 <p align="middle"">
 <img src="screenshots/ss-1.png" alt="Game screen 1" width="250" height="250" />
