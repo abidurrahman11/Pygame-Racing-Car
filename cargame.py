@@ -48,7 +48,7 @@ class Game:
         self.car_crash_sound = pygame.mixer.Sound("assets/carCrash.wav")
 
         # load player car
-        self.original_car = pygame.image.load("assets/car.png")
+        self.original_car = pygame.image.load("assets/cars/car.png")
         self.car = pygame.transform.scale(
             self.original_car,
             (
@@ -63,7 +63,7 @@ class Game:
         )
 
         # load enemy car
-        self.original_car2 = pygame.image.load("assets/otherCar.png")
+        self.original_car2 = pygame.image.load("assets/cars/otherCar.png")
         self.car2 = pygame.transform.scale(
             self.original_car2,
             (
