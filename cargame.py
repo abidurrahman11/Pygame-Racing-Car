@@ -48,7 +48,7 @@ class Game:
         self.mixer = pygame.mixer
         self.car_crash_sound = self.mixer.Sound("assets/audio/carCrash.wav")
         
-        # load background musics
+        # load background music
         self.bg_music = self.mixer.Sound("assets/audio/bgMusic.ogg")
         self.bg_music.play(-1) 
 
