@@ -43,9 +43,14 @@ class Game:
 
         self.game_over_font = pygame.font.SysFont("Arial", 60)
         self.score_font = pygame.font.Font("assets/fonts/joystix monospace.otf", 30)
-
+        
         # load sound effects
-        self.car_crash_sound = pygame.mixer.Sound("assets/carCrash.wav")
+        self.mixer = pygame.mixer
+        self.car_crash_sound = self.mixer.Sound("assets/audio/carCrash.wav")
+        
+        # load background musics
+        self.bg_music = self.mixer.Sound("assets/audio/bgMusic.ogg")
+        self.bg_music.play(-1) 
 
         # load player car
         self.original_car = pygame.image.load("assets/cars/car.png")
@@ -98,7 +103,7 @@ class Game:
                 self.event_updater_counter > self.SCREEN_HEIGHT
             ):  # for dashed line it's sufficient to reset
                 self.event_updater_counter = 0
-
+                
             if self.game_state == "GAME OVER":
                 self.game_over_draw()
                 self.CLOCK.tick(self.FPS)
@@ -147,6 +152,7 @@ class Game:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     self.game_paused = False
+                    self.mixer.unpause()
 
     def event_loop(self):
         for event in pygame.event.get():  # Event Loop
@@ -161,6 +167,8 @@ class Game:
                     self.car_lane = "R"
                 if event.key in [pygame.K_w, pygame.K_UP]:
                     self.speed = self.speed + 5
+                    # TODO: speed up the background music playback as well 
+                    
                 if event.key in [pygame.K_SPACE, pygame.K_r] and self.game_state == "GAME OVER":
                     self.restart_game()
                 if event.key in [pygame.K_SPACE]:
@@ -171,6 +179,8 @@ class Game:
             if event.type == pygame.KEYUP:
                 if event.key in [pygame.K_w, pygame.K_UP]:
                     self.speed = self.speed - 5
+                    # TODO: speed down the background music playback as well 
+                    
             if event.type == pygame.VIDEORESIZE:
                 self.SCREEN_WIDTH, self.SCREEN_HEIGHT = event.w, event.h
                 self.SCREEN = pygame.display.set_mode(
@@ -338,7 +348,6 @@ class Game:
             # Read high_scores from txt file, which are in the form of space separated numbers
             with open("high_scores.txt", "r") as hs_file:
                 high_scores = hs_file.read()
-                hs_file.close()
 
             # Convert the high score string data into list of numbers and add new score to the data
             self.scores = [int(i) for i in high_scores.split()]
@@ -373,12 +382,14 @@ class Game:
         
         self.message_display(
             "(Space to restart)", self.score_font, (80, 80, 80), self.SCREEN_WIDTH / 2, 600
-        )
+        )         
+        self.bg_music.stop()
 
     def game_paused_draw(self):
         self.message_display(
             "PAUSED", self.game_over_font, (0, 0, 100), self.SCREEN_WIDTH / 2, 200
         )
+        self.mixer.pause()
 
     def restart_game(self):
         self.score = 0
@@ -396,6 +407,7 @@ class Game:
         self.car2_loc.center = (self.left_lane, self.SCREEN_HEIGHT * 0.2)
         self.car_lane = "R"
         self.car2_lane = "L"
+        self.bg_music.play(-1) 
         print("Restart!")
 
     @staticmethod
@@ -441,4 +453,3 @@ if __name__ == "__main__":
     game = Game()
 
     game.main_loop()
-
