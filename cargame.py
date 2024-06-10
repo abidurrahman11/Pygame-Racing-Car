@@ -327,11 +327,11 @@ class Game:
             "FINAL SCORE ",
             self.score_font,
             (80, 80, 80),
-            self.SCREEN_WIDTH / 2 - 100,
+            self.SCREEN_WIDTH / 2 - 50,
             230,
         )
         self.message_display(
-            self.score, self.score_font, (80, 80, 80), self.SCREEN_WIDTH / 2 + 100, 230
+            self.score, self.score_font, (80, 80, 80), self.SCREEN_WIDTH / 2 + 150, 230
         )
 
         if not self.has_update_scores:
