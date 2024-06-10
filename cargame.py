@@ -351,6 +351,9 @@ class Game:
             if len(self.scores) > 5:
                 self.scores = self.scores[:5]
 
+            #formatting the scores
+            self.scores = self.pad_scores(self.scores)
+
             # Rewrites the high_scores file with the updated high scores
             with open("high_scores.txt", "w") as hs_file:
                 hs_file.write(" ".join([str(i) for i in self.scores]))
@@ -435,6 +438,19 @@ class Game:
 
         self.SCREEN.blit(img, (x, y))
 
+    # padding zeroes for high scores to have same digits for alignment
+    @staticmethod
+    def pad_scores(scores):
+        """
+        :param: scores : high scores in descending order
+        :type: list
+
+        :return: high scores in padded format
+        :type: list
+        """
+        length_of_highest_score = len(str(scores[0]))
+        scores_padded = [str(score).zfill(length_of_highest_score) for score in scores]
+        return scores_padded
 
 if __name__ == "__main__":
 
