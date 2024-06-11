@@ -48,7 +48,7 @@ class Game:
         self.car_crash_sound = pygame.mixer.Sound("assets/carCrash.wav")
 
         # load player car
-        self.original_car = pygame.image.load("assets/car.png")
+        self.original_car = pygame.image.load("assets/cars/car.png")
         self.car = pygame.transform.scale(
             self.original_car,
             (
@@ -63,7 +63,7 @@ class Game:
         )
 
         # load enemy car
-        self.original_car2 = pygame.image.load("assets/otherCar.png")
+        self.original_car2 = pygame.image.load("assets/cars/otherCar.png")
         self.car2 = pygame.transform.scale(
             self.original_car2,
             (
@@ -327,11 +327,11 @@ class Game:
             "FINAL SCORE ",
             self.score_font,
             (80, 80, 80),
-            self.SCREEN_WIDTH / 2 - 100,
+            self.SCREEN_WIDTH / 2 - 50,
             230,
         )
         self.message_display(
-            self.score, self.score_font, (80, 80, 80), self.SCREEN_WIDTH / 2 + 100, 230
+            self.score, self.score_font, (80, 80, 80), self.SCREEN_WIDTH / 2 + 150, 230
         )
 
         if not self.has_update_scores:
@@ -350,6 +350,9 @@ class Game:
 
             if len(self.scores) > 5:
                 self.scores = self.scores[:5]
+
+            #formatting the scores
+            self.scores = self.pad_scores(self.scores)
 
             # Rewrites the high_scores file with the updated high scores
             with open("high_scores.txt", "w") as hs_file:
@@ -435,6 +438,19 @@ class Game:
 
         self.SCREEN.blit(img, (x, y))
 
+    # padding zeroes for high scores to have same digits for alignment
+    @staticmethod
+    def pad_scores(scores):
+        """
+        :param: scores : high scores in descending order
+        :type: list
+
+        :return: high scores in padded format
+        :type: list
+        """
+        length_of_highest_score = len(str(scores[0]))
+        scores_padded = [str(score).zfill(length_of_highest_score) for score in scores]
+        return scores_padded
 
 if __name__ == "__main__":
 
