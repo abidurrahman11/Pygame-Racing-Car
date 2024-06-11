@@ -17,7 +17,7 @@ Switch to Left Lane:    A, or Left Arrow
 Switch to Right Lane:   D, or Right Arrow 
 Accelerate:             W, or Up Arrow 
 Pause:                  Space Bar
-Exit:                   Esc
+Exit:                   Q, or ESC
 ```
 
 ## Screenshots
