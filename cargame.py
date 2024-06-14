@@ -43,6 +43,7 @@ class Game:
 
         self.game_over_font = pygame.font.SysFont("Arial", 60)
         self.score_font = pygame.font.Font("assets/fonts/joystix monospace.otf", 30)
+        self.game_info_font = pygame.font.SysFont("Arial", 40)
 
         # load sound effects
         self.car_crash_sound = pygame.mixer.Sound("assets/carCrash.wav")
@@ -86,6 +87,7 @@ class Game:
         while True:
             if self.game_paused:
                 self.game_paused_draw()
+                self.game_info_draw()
                 self.CLOCK.tick(10)
                 pygame.display.update()
                 self.handle_critical_events()
@@ -381,6 +383,28 @@ class Game:
     def game_paused_draw(self):
         self.message_display(
             "PAUSED", self.game_over_font, (0, 0, 100), self.SCREEN_WIDTH / 2, 200
+        )
+
+    def game_info_draw(self):
+        pygame.draw.rect(self.SCREEN, (0, 0, 0), [self.SCREEN_WIDTH/4 - 3, self.SCREEN_HEIGHT/4 + 65 - 3, self.SCREEN_WIDTH/2 + 6, 300 + 6])
+        pygame.draw.rect(self.SCREEN, (200, 200, 200), [self.SCREEN_WIDTH/4, self.SCREEN_HEIGHT/4 + 65, self.SCREEN_WIDTH/2, 300])
+        self.message_display(
+            "Controls", self.game_info_font, (40, 40, 40), self.SCREEN_WIDTH / 2, 250
+        )
+        self.message_display(
+            "Left:                 A or \u2190", self.game_info_font, (80, 80, 80), self.SCREEN_WIDTH / 2, 300,
+        )
+        self.message_display(
+            "Right:              D or \u2192", self.game_info_font, (80, 80, 80), self.SCREEN_WIDTH / 2, 350,
+        )
+        self.message_display(
+            "Speed Up:         W or \u2191", self.game_info_font, (80, 80, 80), self.SCREEN_WIDTH / 2, 400,
+        )
+        self.message_display(
+            "Pause:        Space Bar", self.game_info_font, (80, 80, 80), self.SCREEN_WIDTH / 2, 450,
+        )
+        self.message_display(
+            "Exit:              Q or ESC", self.game_info_font, (80, 80, 80), self.SCREEN_WIDTH / 2, 500,
         )
 
     def restart_game(self):
