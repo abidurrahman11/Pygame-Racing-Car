@@ -152,6 +152,8 @@ class Game:
 
     def event_loop(self):
         for event in pygame.event.get():  # Event Loop
+            if event.type == pygame.QUIT:
+                self.quit_game()
             if event.type == pygame.KEYDOWN:
                 if event.key in [pygame.K_a, pygame.K_LEFT] and self.car_lane == "R":
                     # Use this line to add game over
@@ -427,8 +429,8 @@ class Game:
 
     @staticmethod
     def quit_game():
-        sys_exit()
-        quit()
+        pygame.quit()
+        exit()
 
     def message_display(self, text, font, text_col, x, y, center=True):
         """
