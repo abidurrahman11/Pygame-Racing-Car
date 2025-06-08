@@ -1,15 +1,8 @@
 import pygame
 
 # load car images for player and enemy's cars
-def load_car_image(path, width, height):
-    original = pygame.image.load(path)
-    return pygame.transform.scale(
-        original,
-        (
-            int(original.get_width() * (width / 800)),
-            int(original.get_height() * (height / 600)),
-        )
-    )
+def load_car_image(path):
+    return pygame.image.load(path)
 
 # load sound effects
 def load_crash_sound(path):

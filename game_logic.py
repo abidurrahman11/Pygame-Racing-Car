@@ -50,7 +50,14 @@ class Game:
         self.car_crash_sound = load_crash_sound("assets/carCrash.wav")
 
         # load player car
-        self.original_car = load_car_image("assets/cars/car.png", self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+        self.original_car = load_car_image("assets/cars/car.png")
+        self.car = pygame.transform.scale(
+            self.original_car,
+            (
+                int(self.original_car.get_width() * (self.SCREEN_WIDTH / 800)),
+                int(self.original_car.get_height() * (self.SCREEN_HEIGHT / 600)),
+            ),
+        )
 
         self.car_loc = self.car.get_rect()
         self.car_loc.center = (
@@ -59,7 +66,14 @@ class Game:
         )
 
         # load enemy car
-        self.original_car2 = load_car_image("assets/cars/otherCar.png", self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+        self.original_car2 = load_car_image("assets/cars/otherCar.png")
+        self.car2 = pygame.transform.scale(
+            self.original_car2,
+            (
+                int(self.original_car2.get_width() * (self.SCREEN_WIDTH / 800)),
+                int(self.original_car2.get_height() * (self.SCREEN_HEIGHT / 600)),
+            ),
+        )
 
         self.car2_loc = self.car2.get_rect()
         self.car2_loc.center = self.left_lane, self.SCREEN_HEIGHT * 0.2
