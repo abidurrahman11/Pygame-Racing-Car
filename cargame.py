@@ -1,6 +1,7 @@
 import pygame
 import random
 from sys import exit as sys_exit
+from assets import *
 
 # TODO: Add sound effect, trees graphics
 # TODO: Make the movement of the dashed line smoothly transition when level up
@@ -42,21 +43,15 @@ class Game:
         pygame.display.set_caption("2D Car Game")
 
         self.game_over_font = pygame.font.SysFont("Arial", 60)
-        self.score_font = pygame.font.Font("assets/fonts/joystix monospace.otf", 30)
+        self.score_font = load_font("assets/fonts/joystix monospace.otf", 30)
         self.game_info_font = pygame.font.SysFont("Arial", 40)
 
         # load sound effects
-        self.car_crash_sound = pygame.mixer.Sound("assets/carCrash.wav")
+        self.car_crash_sound = load_crash_sound("assets/carCrash.wav")
 
         # load player car
-        self.original_car = pygame.image.load("assets/cars/car.png")
-        self.car = pygame.transform.scale(
-            self.original_car,
-            (
-                int(self.original_car.get_width() * (self.SCREEN_WIDTH / 800)),
-                int(self.original_car.get_height() * (self.SCREEN_HEIGHT / 600)),
-            ),
-        )
+        self.original_car = load_car_image("assets/cars/car.png", self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+
         self.car_loc = self.car.get_rect()
         self.car_loc.center = (
             self.right_lane,
@@ -64,14 +59,8 @@ class Game:
         )
 
         # load enemy car
-        self.original_car2 = pygame.image.load("assets/cars/otherCar.png")
-        self.car2 = pygame.transform.scale(
-            self.original_car2,
-            (
-                int(self.original_car2.get_width() * (self.SCREEN_WIDTH / 800)),
-                int(self.original_car2.get_height() * (self.SCREEN_HEIGHT / 600)),
-            ),
-        )
+        self.original_car2 = load_car_image("assets/cars/otherCar.png", self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+
         self.car2_loc = self.car2.get_rect()
         self.car2_loc.center = self.left_lane, self.SCREEN_HEIGHT * 0.2
 
