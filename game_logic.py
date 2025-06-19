@@ -2,7 +2,7 @@ import pygame
 import random
 from sys import exit as sys_exit
 from assets import *
-from draw_background import draw
+from draw_background import DrawBackground
 
 # TODO: Add sound effect, trees graphics
 # TODO: Make the movement of the dashed line smoothly transition when level up
@@ -138,7 +138,7 @@ class Game:
                 self.car_crash_sound.play()
                 self.game_state = "GAME OVER"
 
-            draw(self, self.event_updater_counter)
+            DrawBackground(self).draw(self.event_updater_counter)
             self.display_score()
 
             self.score += 1
