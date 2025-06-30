@@ -1,6 +1,8 @@
 import pygame
 import random
 from sys import exit as sys_exit
+from assets import *
+from draw_background import DrawBackground
 
 # TODO: Add sound effect, trees graphics
 # TODO: Make the movement of the dashed line smoothly transition when level up
@@ -42,14 +44,14 @@ class Game:
         pygame.display.set_caption("2D Car Game")
 
         self.game_over_font = pygame.font.SysFont("Arial", 60)
-        self.score_font = pygame.font.Font("assets/fonts/joystix monospace.otf", 30)
+        self.score_font = load_font("assets/fonts/joystix monospace.otf", 30)
         self.game_info_font = pygame.font.SysFont("Arial", 40)
 
         # load sound effects
-        self.car_crash_sound = pygame.mixer.Sound("assets/carCrash.wav")
+        self.car_crash_sound = load_crash_sound("assets/carCrash.wav")
 
         # load player car
-        self.original_car = pygame.image.load("assets/cars/car.png")
+        self.original_car = load_car_image("assets/cars/car.png")
         self.car = pygame.transform.scale(
             self.original_car,
             (
@@ -57,6 +59,7 @@ class Game:
                 int(self.original_car.get_height() * (self.SCREEN_HEIGHT / 600)),
             ),
         )
+
         self.car_loc = self.car.get_rect()
         self.car_loc.center = (
             self.right_lane,
@@ -64,7 +67,7 @@ class Game:
         )
 
         # load enemy car
-        self.original_car2 = pygame.image.load("assets/cars/otherCar.png")
+        self.original_car2 = load_car_image("assets/cars/otherCar.png")
         self.car2 = pygame.transform.scale(
             self.original_car2,
             (
@@ -72,6 +75,7 @@ class Game:
                 int(self.original_car2.get_height() * (self.SCREEN_HEIGHT / 600)),
             ),
         )
+
         self.car2_loc = self.car2.get_rect()
         self.car2_loc.center = self.left_lane, self.SCREEN_HEIGHT * 0.2
 
@@ -97,7 +101,7 @@ class Game:
             self.event_updater_counter += 1
 
             if (
-                self.event_updater_counter > self.SCREEN_HEIGHT
+                    self.event_updater_counter > self.SCREEN_HEIGHT
             ):  # for dashed line it's sufficient to reset
                 self.event_updater_counter = 0
 
@@ -115,7 +119,7 @@ class Game:
                 print("Level Up!")
 
             self.car2_loc[1] += (
-                self.speed * self.speed_factor
+                    self.speed * self.speed_factor
             )  # adding speed to change y-axis of car2_loc
 
             # if car2 move & disappear then, changing the location of new car2
@@ -134,7 +138,7 @@ class Game:
                 self.car_crash_sound.play()
                 self.game_state = "GAME OVER"
 
-            self.draw(self.event_updater_counter)
+            DrawBackground(self).draw(self.event_updater_counter)
             self.display_score()
 
             self.score += 1
@@ -224,85 +228,6 @@ class Game:
                         center=(self.left_lane, self.car2_loc.center[1])
                     )
 
-    def draw(self, event_updater_counter):
-        """
-        This is a function that draws the background of the game and is
-        used to update the background when resized
-        For moving the yellow dashed line on the road, several rect are drawn
-        and then moved with the event_updater_counter variable.
-        Once the event_update_counter reaches 30, the rects are reset to their
-        original positions and the process is repeated.
-        """
-
-        # drawing the dark road on the center of green screen
-        self.SCREEN.fill(self.GRASS_COLOR)
-
-        pygame.draw.rect(
-            self.SCREEN,
-            self.DARK_ROAD_COLOR,
-            (
-                self.SCREEN_WIDTH / 2 - self.road_w / 2,
-                0,
-                self.road_w,
-                self.SCREEN_HEIGHT,
-            ),
-        )
-
-        # drawing the yellow dashed line on the center of dark road
-        num_yellow_lines = 11 # 10 + 1 moving in the borders of the screen
-        # event_updater_counter is used to move the yellow dashed line
-        line_positions = [
-            (
-                self.SCREEN_WIDTH / 2 - self.roadmark_w / 2,
-                # be careful changing this values, it may cause the lines
-                # to not be drawn correctly
-                # line speed is 75% of car2 speed
-                int(
-                    (self.SCREEN_HEIGHT / 20
-                    + 2 * self.SCREEN_HEIGHT / 20 * num_line
-                    + self.speed * self.speed_factor * event_updater_counter * 0.75)
-                    % self.SCREEN_HEIGHT / 10 * 11
-                    - self.SCREEN_HEIGHT / 20
-                ),
-                self.roadmark_w,
-                self.SCREEN_HEIGHT / 20,
-            )
-            for num_line in range(num_yellow_lines)
-        ]
-
-        for line_position in line_positions:
-            pygame.draw.rect(
-                self.SCREEN,
-                self.YELLOW_LINE_COLOR,
-                line_position,
-            )
-
-        # drawing a white line on the left side of road
-        pygame.draw.rect(
-            self.SCREEN,
-            self.WHITE_LINE_COLOR,
-            (
-                self.SCREEN_WIDTH / 2 - self.road_w / 2 + self.roadmark_w * 2,
-                0,
-                self.roadmark_w,
-                self.SCREEN_HEIGHT,
-            ),
-        )
-        # drawing a white line on the right side of road
-        pygame.draw.rect(
-            self.SCREEN,
-            (255, 255, 255),
-            (
-                self.SCREEN_WIDTH / 2 + self.road_w / 2 - self.roadmark_w * 3,
-                0,
-                self.roadmark_w,
-                self.SCREEN_HEIGHT,
-            ),
-        )
-
-        # load the car on road
-        self.SCREEN.blit(self.car, self.car_loc)
-        self.SCREEN.blit(self.car2, self.car2_loc)
 
     def display_score(self):
         self.message_display(
@@ -353,7 +278,7 @@ class Game:
             if len(self.scores) > 5:
                 self.scores = self.scores[:5]
 
-            #formatting the scores
+            # formatting the scores
             self.scores = self.pad_scores(self.scores)
 
             # Rewrites the high_scores file with the updated high scores
@@ -375,7 +300,7 @@ class Game:
                 self.SCREEN_WIDTH / 2,
                 410 + ((idx + 1) * 30),
             )
-        
+
         self.message_display(
             "(Space to restart)", self.score_font, (80, 80, 80), self.SCREEN_WIDTH / 2, 600
         )
@@ -386,8 +311,11 @@ class Game:
         )
 
     def game_info_draw(self):
-        pygame.draw.rect(self.SCREEN, (0, 0, 0), [self.SCREEN_WIDTH/4 - 3, self.SCREEN_HEIGHT/4 + 65 - 3, self.SCREEN_WIDTH/2 + 6, 300 + 6])
-        pygame.draw.rect(self.SCREEN, (200, 200, 200), [self.SCREEN_WIDTH/4, self.SCREEN_HEIGHT/4 + 65, self.SCREEN_WIDTH/2, 300])
+        pygame.draw.rect(self.SCREEN, (0, 0, 0),
+                         [self.SCREEN_WIDTH / 4 - 3, self.SCREEN_HEIGHT / 4 + 65 - 3, self.SCREEN_WIDTH / 2 + 6,
+                          300 + 6])
+        pygame.draw.rect(self.SCREEN, (200, 200, 200),
+                         [self.SCREEN_WIDTH / 4, self.SCREEN_HEIGHT / 4 + 65, self.SCREEN_WIDTH / 2, 300])
         self.message_display(
             "Controls", self.game_info_font, (40, 40, 40), self.SCREEN_WIDTH / 2, 250
         )
@@ -475,10 +403,4 @@ class Game:
         length_of_highest_score = len(str(scores[0]))
         scores_padded = [str(score).zfill(length_of_highest_score) for score in scores]
         return scores_padded
-
-if __name__ == "__main__":
-
-    game = Game()
-
-    game.main_loop()
 
