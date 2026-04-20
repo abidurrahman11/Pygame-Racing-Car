@@ -31,6 +31,16 @@ class Game:
 
         self.score = 0
         self.level = 0
+        
+        try:
+            with open("high_scores.txt", "r") as hs_file:
+                high_scores = hs_file.read().strip()
+            if high_scores:
+                self.max_score = max([int(i) for i in high_scores.split()])
+            else:
+                self.max_score = 0
+        except FileNotFoundError:
+            self.max_score = 0
 
         self.CLOCK = pygame.time.Clock()
         self.event_updater_counter = 0  # for moving dashed line on the road
@@ -135,6 +145,7 @@ class Game:
                 self.game_state = "GAME OVER"
 
             self.draw(self.event_updater_counter)
+            self.display_max_score()
             self.display_score()
 
             self.update_score()
@@ -300,11 +311,26 @@ class Game:
                 self.SCREEN_HEIGHT,
             ),
         )
-
         # load the car on road
         self.SCREEN.blit(self.car, self.car_loc)
         self.SCREEN.blit(self.car2, self.car2_loc)
 
+    def display_max_score(self):
+        self.message_display(
+            "MAX",
+            self.score_font,
+            (255, 50, 50),
+            self.right_lane + self.road_w / 2.5,
+            85,
+        )
+
+        self.message_display(
+            self.max_score,
+            self.score_font,
+            (255, 50, 50),
+            self.right_lane + self.road_w / 2.5,
+            120,
+        )
     def display_score(self):
         self.message_display(
             "SCORE ",
@@ -433,6 +459,9 @@ class Game:
             self.score += 1 + additional_score
         else:
             self.score += 1
+            
+        if self.score > self.max_score:
+            self.max_score = self.score
 
     @staticmethod
     def quit_game():
