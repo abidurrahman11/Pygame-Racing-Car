@@ -34,15 +34,14 @@ class Game:
         
         try:
             with open("high_scores.txt", "r") as hs_file:
-                high_scores = hs_file.read().strip()
-            if high_scores:
-                self.max_score = max([int(float(i)) for i in high_scores.split()])
+                raw = hs_file.read().strip()
+            if raw:
+                self.max_score = max([int(float(i)) for i in raw.split()])
             else:
                 self.max_score = 0
-        except FileNotFoundError:
+        except (FileNotFoundError, ValueError):
             self.max_score = 0
-            with open("high_scores.txt", "w") as hs_file:
-                pass  # create an empty file
+            open("high_scores.txt", "w").close()  # create an empty file
 
         self.CLOCK = pygame.time.Clock()
         self.event_updater_counter = 0  # for moving dashed line on the road
@@ -92,8 +91,7 @@ class Game:
         self.game_state = "MAIN GAME"
         self.game_paused = False
 
-        self.has_update_scores = False
-        self.scores = []
+
 
     def main_loop(self):
         while True:
@@ -365,48 +363,19 @@ class Game:
             self.score, self.score_font, (80, 80, 80), self.SCREEN_WIDTH / 2 + 150, 230
         )
 
-        if not self.has_update_scores:
-            # Read high_scores from txt file, which are in the form of space separated numbers
-            with open("high_scores.txt", "r") as hs_file:
-                high_scores = hs_file.read()
-                hs_file.close()
-
-            # Convert the high score string data into list of numbers and add new score to the data
-            self.scores = [int(i) for i in high_scores.split()]
-            self.scores.append(self.score)
-
-            # Sort in descending order, then keep only the top 5 scores by deleting the extra score if present
-            self.scores.sort()
-            self.scores.reverse()
-
-            if len(self.scores) > 5:
-                self.scores = self.scores[:5]
-
-            #formatting the scores
-            self.scores = self.pad_scores(self.scores)
-
-            # Rewrites the high_scores file with the updated high scores
-            with open("high_scores.txt", "w") as hs_file:
-                hs_file.write(" ".join([str(i) for i in self.scores]))
-
-            self.has_update_scores = True
-
-            # Printing top 5 high scores
         self.message_display(
-            "HIGH SCORES", self.score_font, (100, 100, 100), self.SCREEN_WIDTH / 2, 410
+            "HIGH SCORE", self.score_font, (100, 100, 100), self.SCREEN_WIDTH / 2, 410
+        )
+        self.message_display(
+            str(self.max_score),
+            self.score_font,
+            (100, 100, 100),
+            self.SCREEN_WIDTH / 2,
+            445,
         )
 
-        for idx, score in enumerate(self.scores):
-            self.message_display(
-                f"{idx + 1}. {score}",
-                self.score_font,
-                (100, 100, 100),
-                self.SCREEN_WIDTH / 2,
-                410 + ((idx + 1) * 30),
-            )
-        
         self.message_display(
-            "(Space to restart)", self.score_font, (80, 80, 80), self.SCREEN_WIDTH / 2, 600
+            "(Space to restart)", self.score_font, (80, 80, 80), self.SCREEN_WIDTH / 2, 500
         )
 
     def game_paused_draw(self):
@@ -442,8 +411,6 @@ class Game:
         self.speed = 3
         self.event_updater_counter = 0
         self.game_state = "MAIN GAME"
-        self.has_update_scores = False
-        self.scores = []
         self.car_loc.center = (
             self.right_lane,
             self.SCREEN_HEIGHT - self.car_loc.height * 0.5,
@@ -461,9 +428,11 @@ class Game:
             self.score += 1 + additional_score
         else:
             self.score += 1
-            
+
         if self.score > self.max_score:
             self.max_score = self.score
+            with open("high_scores.txt", "w") as hs_file:
+                hs_file.write(str(self.max_score))
 
     @staticmethod
     def quit_game():
@@ -502,19 +471,7 @@ class Game:
 
         self.SCREEN.blit(img, (x, y))
 
-    # padding zeroes for high scores to have same digits for alignment
-    @staticmethod
-    def pad_scores(scores):
-        """
-        :param: scores : high scores in descending order
-        :type: list
 
-        :return: high scores in padded format
-        :type: list
-        """
-        length_of_highest_score = len(str(scores[0]))
-        scores_padded = [str(score).zfill(length_of_highest_score) for score in scores]
-        return scores_padded
 
 if __name__ == "__main__":
 
